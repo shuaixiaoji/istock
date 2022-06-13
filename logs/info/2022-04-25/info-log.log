@@ -1,0 +1,21 @@
+2022-04-25 18:05:05.989 INFO  io.github.kingschan1204.istock.module.hisroe.service.StockHisRoeServiceTest - No active profile set, falling back to default profiles: default
+2022-04-25 18:05:11.717 INFO  io.github.kingschan1204.istock.module.maindata.services.StockServiceTest - No active profile set, falling back to default profiles: default
+2022-04-25 18:05:15.078 INFO  io.github.kingschan1204.istock.test.DefaultSpiderImplTest - No active profile set, falling back to default profiles: default
+2022-04-25 18:05:18.274 INFO  io.github.kingschan1204.istock.test.DefaultSpiderImplTest - No active profile set, falling back to default profiles: default
+2022-04-25 18:05:21.454 INFO  io.github.kingschan1204.istock.test.DefaultSpiderImplTest - No active profile set, falling back to default profiles: default
+2022-04-25 18:19:09.605 INFO  io.github.kingschan1204.istock.Application - No active profile set, falling back to default profiles: default
+2022-04-25 18:25:27.433 INFO  io.github.kingschan1204.istock.Application - No active profile set, falling back to default profiles: default
+2022-04-25 18:28:35.386 INFO  io.github.kingschan1204.istock.Application - No active profile set, falling back to default profiles: default
+2022-04-25 18:30:22.386 INFO  io.github.kingschan1204.istock.Application - No active profile set, falling back to default profiles: default
+2022-04-25 18:34:57.986 INFO  io.github.kingschan1204.istock.Application - No active profile set, falling back to default profiles: default
+2022-04-25 18:38:20.599 INFO  io.github.kingschan1204.istock.Application - No active profile set, falling back to default profiles: default
+2022-04-25 18:38:23.868 INFO  io.github.kingschan1204.istock.common.util.quartz.QuartzManager - 添加定时任务sinaPriceTask , class:io.github.kingschan1204.istock.module.task.SinaStockPriceTask  执行频率：0/30 * * * * ?
+2022-04-25 18:38:23.869 INFO  io.github.kingschan1204.istock.common.util.quartz.QuartzManager - 添加定时任务tencentPriceTask , class:io.github.kingschan1204.istock.module.task.TencentStockPriceTask  执行频率：0/30 * * * * ?
+2022-04-25 18:38:23.870 INFO  io.github.kingschan1204.istock.common.util.quartz.QuartzManager - 添加定时任务stockInfoTask , class:io.github.kingschan1204.istock.module.task.ThsStockInfoTask  执行频率：0/30 * * * * ?
+2022-04-25 18:38:23.870 INFO  io.github.kingschan1204.istock.common.util.quartz.QuartzManager - 添加定时任务stockHoldersTask , class:io.github.kingschan1204.istock.module.task.StockTopHoldersTask  执行频率：0/30 * * * * ?
+2022-04-25 18:38:23.870 INFO  io.github.kingschan1204.istock.common.util.quartz.QuartzManager - 添加定时任务stockCodeTask , class:io.github.kingschan1204.istock.module.task.StockCodeTask  执行频率：0 0 0 * * ?
+2022-04-25 18:38:23.870 INFO  io.github.kingschan1204.istock.common.util.quartz.QuartzManager - 添加定时任务stockDividendTask , class:io.github.kingschan1204.istock.module.task.StockDividendTask  执行频率：6 * * * * ?
+2022-04-25 18:38:23.871 INFO  io.github.kingschan1204.istock.common.util.quartz.QuartzManager - 添加定时任务hisRepoartTask , class:io.github.kingschan1204.istock.module.task.ThsHisYearReportTask  执行频率：6 * * * * ?
+2022-04-25 18:38:23.871 INFO  io.github.kingschan1204.istock.common.util.quartz.QuartzManager - 添加定时任务xueqiuDyTask , class:io.github.kingschan1204.istock.module.task.XueQiuStockDyTask  执行频率：0 0/1 * * * ?
+2022-04-25 18:38:23.872 INFO  io.github.kingschan1204.istock.common.util.quartz.QuartzManager - 添加定时任务CleanFileTask , class:io.github.kingschan1204.istock.module.task.CleanFileTask  执行频率：0 0 0 * * ?
+2022-04-25 18:38:23.873 INFO  io.github.kingschan1204.istock.Application - Started Application in 6.224 seconds (JVM running for 6.706)
