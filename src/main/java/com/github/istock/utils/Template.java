@@ -16,11 +16,13 @@ import java.util.List;
  * @date 2022/6/13 14:43
  */
 public class Template {
+    private static final String URL_HEADD = "http://157.0.19.2:10120/api/public/";
 
     public static RestTemplate getRestTemplate() {
         HttpComponentsClientHttpRequestFactory httpRequestFactory = new HttpComponentsClientHttpRequestFactory();
         // disableCookieManagement() 禁用cookie会话保持功能
-        CloseableHttpClient httpClient = HttpClientBuilder.create().disableCookieManagement().useSystemProperties().build();
+        CloseableHttpClient httpClient =
+                HttpClientBuilder.create().disableCookieManagement().useSystemProperties().build();
         httpRequestFactory.setHttpClient(httpClient);
         // 设置请求超时时间60s
         httpRequestFactory.setConnectionRequestTimeout(60 * 1000);
@@ -34,5 +36,9 @@ public class Template {
         restTemplate.setInterceptors(interceptors);
 
         return restTemplate;
+    }
+
+    public static String getUrl(String infUrl) {
+        return URL_HEADD + infUrl;
     }
 }

@@ -9,3 +9,14 @@
 2022-06-13 10:42:36.539 INFO  io.github.kingschan1204.istock.common.util.quartz.QuartzManager - 添加定时任务xueqiuDyTask , class:io.github.kingschan1204.istock.module.task.XueQiuStockDyTask  执行频率：0 0/1 * * * ?
 2022-06-13 10:42:36.539 INFO  io.github.kingschan1204.istock.common.util.quartz.QuartzManager - 添加定时任务CleanFileTask , class:io.github.kingschan1204.istock.module.task.CleanFileTask  执行频率：0 0 0 * * ?
 2022-06-13 10:42:36.540 INFO  io.github.kingschan1204.istock.Application - Started Application in 10.536 seconds (JVM running for 11.462)
+2022-06-13 14:21:57.854 INFO  io.github.kingschan1204.istock.Application - No active profile set, falling back to default profiles: default
+2022-06-13 14:22:01.126 INFO  io.github.kingschan1204.istock.common.util.quartz.QuartzManager - 添加定时任务sinaPriceTask , class:io.github.kingschan1204.istock.module.task.SinaStockPriceTask  执行频率：0/30 * * * * ?
+2022-06-13 14:22:01.127 INFO  io.github.kingschan1204.istock.common.util.quartz.QuartzManager - 添加定时任务tencentPriceTask , class:io.github.kingschan1204.istock.module.task.TencentStockPriceTask  执行频率：0/30 * * * * ?
+2022-06-13 14:22:01.128 INFO  io.github.kingschan1204.istock.common.util.quartz.QuartzManager - 添加定时任务stockInfoTask , class:io.github.kingschan1204.istock.module.task.ThsStockInfoTask  执行频率：0/30 * * * * ?
+2022-06-13 14:22:01.128 INFO  io.github.kingschan1204.istock.common.util.quartz.QuartzManager - 添加定时任务stockHoldersTask , class:io.github.kingschan1204.istock.module.task.StockTopHoldersTask  执行频率：0/30 * * * * ?
+2022-06-13 14:22:01.128 INFO  io.github.kingschan1204.istock.common.util.quartz.QuartzManager - 添加定时任务stockCodeTask , class:io.github.kingschan1204.istock.module.task.StockCodeTask  执行频率：0 0 0 * * ?
+2022-06-13 14:22:01.129 INFO  io.github.kingschan1204.istock.common.util.quartz.QuartzManager - 添加定时任务stockDividendTask , class:io.github.kingschan1204.istock.module.task.StockDividendTask  执行频率：6 * * * * ?
+2022-06-13 14:22:01.129 INFO  io.github.kingschan1204.istock.common.util.quartz.QuartzManager - 添加定时任务hisRepoartTask , class:io.github.kingschan1204.istock.module.task.ThsHisYearReportTask  执行频率：6 * * * * ?
+2022-06-13 14:22:01.129 INFO  io.github.kingschan1204.istock.common.util.quartz.QuartzManager - 添加定时任务xueqiuDyTask , class:io.github.kingschan1204.istock.module.task.XueQiuStockDyTask  执行频率：0 0/1 * * * ?
+2022-06-13 14:22:01.130 INFO  io.github.kingschan1204.istock.common.util.quartz.QuartzManager - 添加定时任务CleanFileTask , class:io.github.kingschan1204.istock.module.task.CleanFileTask  执行频率：0 0 0 * * ?
+2022-06-13 14:22:01.131 INFO  io.github.kingschan1204.istock.Application - Started Application in 6.208 seconds (JVM running for 7.261)
