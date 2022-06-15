@@ -7,7 +7,8 @@ package com.github.istock.enums;
  */
 public enum InterfacesEnums {
     STOCK_SSE_SUMMARY("数据总貌","stock_sse_summary"),
-    STOCK_NEW_A_SPOT_EM("新股实时","stock_new_a_spot_em");
+    STOCK_NEW_A_SPOT_EM("新股实时","stock_new_a_spot_em"),
+    STOCK_ZH_A_STOP_EM("退市查询","stock_zh_a_stop_em");
     private String desc;
     private String interfaceUrl;
 

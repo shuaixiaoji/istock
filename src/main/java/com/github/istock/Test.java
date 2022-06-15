@@ -19,8 +19,11 @@ public class Test {
 //        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(requestUrl1).queryParam("timestamp","2022-04-25 17:57:18");
 //        System.out.println(restTemplate.getForObject(builder.build().toString(), Object.class));
 
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(Template.getUrl(InterfacesEnums.STOCK_NEW_A_SPOT_EM.getInterfaceUrl()));
-        System.out.println(restTemplate.getForObject(builder.build().toString(), JSONArray.class));
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(Template.getUrl(InterfacesEnums.STOCK_ZH_A_STOP_EM.getInterfaceUrl()));
+        JSONArray resultArray = restTemplate.getForObject(builder.build().toString(), JSONArray.class);
+        System.out.println(resultArray);
+        System.out.println(resultArray.size());
+
     }
 
 }
