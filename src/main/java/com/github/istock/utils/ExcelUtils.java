@@ -16,6 +16,14 @@ import java.util.List;
 @Slf4j
 public class ExcelUtils {
 
+    /**
+     * 写单个sheet，4000条写一次
+     *
+     * @param fileName
+     * @param data
+     * @param tClass
+     * @param <T>
+     */
     public static <T> void simpleWrite(String fileName, List<T> data, Class<T> tClass) {
         ExcelWriter excelWriter = EasyExcel.write(fileName, tClass).build();
         // 创建sheet
