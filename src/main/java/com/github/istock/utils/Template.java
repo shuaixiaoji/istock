@@ -64,9 +64,24 @@ public class Template {
         if (MapUtils.isEmpty(params)) {
             return restTemplate.getForObject(builder.build().toString(), JSONArray.class);
         }
-        params.forEach((key, value) -> {
-            builder.queryParam(key, value);
-        });
+        params.forEach(builder::queryParam);
         return restTemplate.getForObject(builder.build().toString(), JSONArray.class);
+    }
+
+    /**
+     * get方法获取JSONArray结果
+     *
+     * @param interfaceUrl 接口名称
+     * @param params  <k,v>参数
+     * @return list
+     */
+    public static List<Object> requestForList(String interfaceUrl, Map<String, String> params) {
+        RestTemplate restTemplate = getRestTemplate();
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(Template.getUrl(interfaceUrl));
+        if (MapUtils.isEmpty(params)) {
+            return restTemplate.getForObject(builder.build().toString(), List.class);
+        }
+        params.forEach(builder::queryParam);
+        return restTemplate.getForObject(builder.build().toString(), List.class);
     }
 }

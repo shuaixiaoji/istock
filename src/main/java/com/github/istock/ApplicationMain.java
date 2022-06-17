@@ -20,15 +20,18 @@ public class ApplicationMain {
 
     public static void main(String[] args) {
         // 接口名 + map格式参数获取结果
-        JSONArray resultArray = Template.requestForJsonArray(InterfacesEnums.STOCK_ZH_A_STOP_EM.getInterfaceUrl(),
-                null);
+//        JSONArray resultArray = Template.requestForJsonArray(InterfacesEnums.STOCK_ZH_A_STOP_EM.getInterfaceUrl(),
+//                null);
+//
+//        List<StopEntity> stopList = resultArray.stream().map(object -> {
+//            JSONObject json = JSONObject.parseObject(JSON.toJSONString(object));
+//            return StopEntity.convertJsonToBean(json);
+//        }).collect(Collectors.toList());
+//
+//        ExcelUtils.simpleWrite("/Users/sylrain/Desktop/sxj/stopExcel.xlsx", stopList, StopEntity.class);
 
-        List<StopEntity> stopList = resultArray.stream().map(object -> {
-            JSONObject json = JSONObject.parseObject(JSON.toJSONString(object));
-            return StopEntity.convertJsonToBean(json);
-        }).collect(Collectors.toList());
-
-        ExcelUtils.simpleWrite("/Users/sylrain/Desktop/sxj/stopExcel.xlsx", stopList, StopEntity.class);
+        List<Object> list = Template.requestForList(InterfacesEnums.STOCK_INNER_TRADE_XQ.getInterfaceUrl(), null);
+        ExportUtil.exportData(list, InterfacesEnums.STOCK_INNER_TRADE_XQ.getInterfaceUrl());
     }
 
 }
