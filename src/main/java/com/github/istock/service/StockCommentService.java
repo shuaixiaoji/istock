@@ -2,11 +2,16 @@ package com.github.istock.service;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.github.istock.enums.MarketInterfacesEnums;
 import com.github.istock.utils.Template;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author shuaixiaoji
@@ -47,9 +52,34 @@ public class StockCommentService {
 
         System.out.println(JSON.toJSONString(hisScore));
         System.out.println(JSON.toJSONString(userFocus));
-        System.out.println(JSON.toJSONString(userDesire));
-        System.out.println(JSON.toJSONString(userDesireDaily));
-        System.out.println(JSON.toJSONString(costArray));
+//      JSONArray combinedArray = JSONArray.parseArray(JSON.toJSONString(Stream.of(hisScore,userFocus).flatMap(Collection::stream).collect(Collectors.toList())));
 
+
+        hisScore.forEach(h -> userFocus.forEach(u -> {
+            if (isSameDay(h,u)) {
+                ((HashMap)h).putAll((HashMap)u);
+            }
+        }));
+//        JSONArray combineArray = new JSONArray();
+//        Stream.iterate(0,integer -> integer+1).limit(hisScore.size()).forEach(index -> {
+//          JSONObject hisObject = JSONObject.parseObject(JSON.toJSONString((hisScore.get(index))));
+//          JSONObject focusObject = JSONObject.parseObject(JSON.toJSONString((userFocus.get(index))));
+//          hisObject.putAll(focusObject);
+//            combineArray.add(hisObject);
+//        });
+        System.out.println(JSON.toJSONString(hisScore));
+
+//        System.out.println(JSON.toJSONString(userDesire));
+//        System.out.println(JSON.toJSONString(userDesireDaily));
+//        System.out.println(JSON.toJSONString(costArray));
+
+    }
+
+    private static Object getDay(Object o){
+        return ((HashMap)o).get("日期");
+    }
+
+    private static boolean isSameDay(Object h, Object o){
+        return Objects.equals(getDay(h),getDay(o));
     }
 }

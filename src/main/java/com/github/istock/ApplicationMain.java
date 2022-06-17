@@ -28,7 +28,7 @@ public class ApplicationMain {
             return StopEntity.convertJsonToBean(json);
         }).collect(Collectors.toList());
 
-        ExcelUtils.simpleWrite("D://stopExcel.xlsx", stopList, StopEntity.class);
+        ExcelUtils.simpleWrite("/Users/sylrain/Desktop/sxj/stopExcel.xlsx", stopList, StopEntity.class);
     }
 
 }
