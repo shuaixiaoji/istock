@@ -20,7 +20,9 @@ public class ApplicationMain {
 
     public static void main(String[] args) {
         // 接口名 + map格式参数获取结果
-//        JSONArray resultArray = Template.requestForJsonArray(InterfacesEnums.STOCK_ZH_A_STOP_EM.getInterfaceUrl(),
+//        JSONArray resultArray = TemplateUtils.requestForJsonArray(InterfacesEnums.STOCK_ZH_A_STOP_EM.getInterfaceUrl(),
+//                null);
+//        JSONArray resultArray = TemplateUtils.requestForJsonArray(InterfacesEnums.STOCK_ZH_A_STOP_EM.getInterfaceUrl(),
 //                null);
 //
 //        List<StopEntity> stopList = resultArray.stream().map(object -> {

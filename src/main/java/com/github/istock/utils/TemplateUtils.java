@@ -19,7 +19,7 @@ import java.util.Map;
  * @Description 模板方法
  * @date 2022/6/13 14:43
  */
-public class Template {
+public class TemplateUtils {
     private static final String URL_HEAD = "http://157.0.19.2:10120/api/public/";
 
     /**
@@ -60,7 +60,7 @@ public class Template {
      */
     public static JSONArray requestForJsonArray(String interfaceUrl, Map<String, String> params) {
         RestTemplate restTemplate = getRestTemplate();
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(Template.getUrl(interfaceUrl));
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(TemplateUtils.getUrl(interfaceUrl));
         if (MapUtils.isEmpty(params)) {
             return restTemplate.getForObject(builder.build().toString(), JSONArray.class);
         }
