@@ -6,7 +6,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.istock.entity.StopEntity;
 import com.github.istock.enums.InterfacesEnums;
 import com.github.istock.utils.ExcelUtils;
-import com.github.istock.utils.Template;
+import com.github.istock.utils.TemplateUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,7 +32,7 @@ public class ApplicationMain {
 //
 //        ExcelUtils.simpleWrite("/Users/sylrain/Desktop/sxj/stopExcel.xlsx", stopList, StopEntity.class);
 
-        List<Object> list = Template.requestForList(InterfacesEnums.STOCK_INNER_TRADE_XQ.getInterfaceUrl(), null);
+        List<Object> list = TemplateUtils.requestForList(InterfacesEnums.STOCK_INNER_TRADE_XQ.getInterfaceUrl(), null);
         ExportUtil.exportData(list, InterfacesEnums.STOCK_INNER_TRADE_XQ.getInterfaceUrl());
     }
 
