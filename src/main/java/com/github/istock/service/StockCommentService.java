@@ -23,10 +23,7 @@ public class StockCommentService {
 
         params.put("symbol","002274");
 
-        // 机构参与度
-        JSONArray resultArray = TemplateUtils.requestForJsonArray(MarketInterfacesEnums.STOCK_COMMENT_DETAIL_ZLKP_JGCYD_EM.getInterfaceUrl(),
-                params);
-        System.out.println(JSON.toJSONString(resultArray));
+
 
         // 历史评分
         JSONArray hisScore = TemplateUtils.requestForJsonArray(MarketInterfacesEnums.STOCK_COMMENT_DETAIL_ZHPJ_LSPF_EM.getInterfaceUrl(),
@@ -36,8 +33,18 @@ public class StockCommentService {
         JSONArray userFocus = TemplateUtils.requestForJsonArray(MarketInterfacesEnums.STOCK_COMMENT_DETAIL_SCRD_FOCUS_EM.getInterfaceUrl(),
                 params);
 
+        // 组合历史评分和关注度
         JSONArray combinedArray = DataUtils.combineArray(hisScore,userFocus,"日期");
-        ScoreEntity.exportExcel(combinedArray,"D://marketExcel.xlsx");
+
+
+        // 机构参与度
+        JSONArray resultArray = TemplateUtils.requestForJsonArray(MarketInterfacesEnums.STOCK_COMMENT_DETAIL_ZLKP_JGCYD_EM.getInterfaceUrl(),
+                params);
+        // 组合机构参与度
+        JSONArray combineZLArray = DataUtils.combineArray(combinedArray,resultArray,"日期");
+
+        System.out.println(JSON.toJSONString(combineZLArray));
+        ScoreEntity.exportExcel(combineZLArray,"D://marketExcel.xlsx");
 
 //        // 市场参与意愿
 //        JSONArray userDesire = TemplateUtils.requestForJsonArray(MarketInterfacesEnums.STOCK_COMMENT_DETAIL_SCRD_DESIRE_EM.getInterfaceUrl(),

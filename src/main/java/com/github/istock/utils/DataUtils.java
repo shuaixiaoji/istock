@@ -22,8 +22,12 @@ public class DataUtils {
      */
     public static JSONArray combineArray(JSONArray originData,JSONArray combineData,String quota){
         originData.forEach(origin -> combineData.forEach(combine -> {
+            // 如果是相同的条件，合并jsonObject
             if (isSameQuota(origin,combine,quota)) {
                 ((HashMap)origin).putAll((HashMap)combine);
+            } else{
+                // 不是相同条件的，添加至jsonArray
+                originData.add(combine);
             }
         }));
         return originData;
