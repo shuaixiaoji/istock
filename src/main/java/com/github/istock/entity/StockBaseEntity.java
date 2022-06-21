@@ -52,8 +52,11 @@ public class StockBaseEntity {
         resp.setPer(json.getBigDecimal("市盈率-动态"));
         resp.setPbr(json.getBigDecimal("市净率"));
         resp.setTotalAmount(Optional.ofNullable(json.getBigDecimal("总市值")).orElse(Constant.ZERO).divide(Constant.TEN_THOUSAND,3,BigDecimal.ROUND_HALF_UP));
+        resp.setCirculationAmount(Optional.ofNullable(json.getBigDecimal("流通市值")).orElse(Constant.ZERO).divide(Constant.TEN_THOUSAND,3,BigDecimal.ROUND_HALF_UP));
         resp.setGain60(json.getBigDecimal("60日涨跌幅"));
         resp.setGainYear(json.getBigDecimal("年初至今涨跌幅"));
+        resp.setUpdateTime(new Date());
+        resp.setCreateTime(new Date());
         return resp;
     }
 
