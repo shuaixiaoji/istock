@@ -17,7 +17,7 @@ public enum MarketInterfacesEnums {
 
     /************   分析师  ******************/
 
-    /************   千股千评 ******************/
+    /************   千股千评start ******************/
 
     STOCK_COMMENT_EM("千股千评-所有数据","stock_comment_em"),
 
@@ -37,9 +37,14 @@ public enum MarketInterfacesEnums {
     STOCK_COMMENT_DETAIL_SCRD_DESIRE_DAILY_EM("日度市场参与意愿","stock_comment_detail_scrd_desire_daily_em"),
 
     // symbol="600000"
-    STOCK_COMMENT_DETAIL_SCRD_COST_EM("千股千评-市场热度-市场成本","stock_comment_detail_scrd_cost_em");
+    STOCK_COMMENT_DETAIL_SCRD_COST_EM("千股千评-市场热度-市场成本","stock_comment_detail_scrd_cost_em"),
 
-    /************   千股千评 ******************/
+    /************   千股千评end ******************/
+
+    /************   沪深京A股信息 start ******************/
+    STOCK_ZH_A_SPOT_EM("千股千评-市场热度-市场成本","stock_zh_a_spot_em");
+    /************   沪深京A股信息 end ******************/
+
     private String desc;
     private String interfaceUrl;
 

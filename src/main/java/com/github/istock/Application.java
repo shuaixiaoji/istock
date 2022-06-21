@@ -1,14 +1,12 @@
 package com.github.istock;
 
-import io.github.kingschan1204.istock.module.startup.InitQuartzTaskRunner;
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import tk.mybatis.spring.annotation.MapperScan;
 
 /**
  * spring boot 启动类
