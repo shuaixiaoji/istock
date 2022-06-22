@@ -42,7 +42,11 @@ public enum MarketInterfacesEnums {
     /************   千股千评end ******************/
 
     /************   沪深京A股信息 start ******************/
-    STOCK_ZH_A_SPOT_EM("千股千评-市场热度-市场成本","stock_zh_a_spot_em");
+    STOCK_ZH_A_SPOT_EM("千股千评-市场热度-市场成本","stock_zh_a_spot_em"),
+    /************   沪深京A股信息 end ******************/
+
+    /************   沪深京A股信息 start ******************/
+    STOCK_ZH_A_HIST("个股历史数据","stock_zh_a_hist");
     /************   沪深京A股信息 end ******************/
 
     private String desc;
