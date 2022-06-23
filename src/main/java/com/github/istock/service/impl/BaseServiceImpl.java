@@ -2,11 +2,13 @@ package com.github.istock.service.impl;
 
 
 import com.github.istock.service.BaseService;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import tk.mybatis.mapper.common.Mapper;
 import java.util.List;
 
 public class BaseServiceImpl<M extends Mapper<T>, T> implements BaseService<T> {
+    @Getter
     @Autowired
     protected M mapper;
 

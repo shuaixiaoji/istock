@@ -9,6 +9,7 @@ import com.github.istock.entity.StockHisEntity;
 import com.github.istock.enums.MarketInterfacesEnums;
 import com.github.istock.mapper.StockBaseMapper;
 import com.github.istock.mapper.StockHisMapper;
+import com.github.istock.service.StockBaseService;
 import com.github.istock.utils.TemplateUtils;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,8 @@ public class DayExecuteController {
     private StockBaseMapper stockBaseMapper;
     @Autowired
     private StockHisMapper stockHisMapper;
+    @Autowired
+    private StockBaseService stockBaseService;
 
     @GetMapping("/refreshAStock")
     public void refreshAStock() {
@@ -63,7 +66,8 @@ public class DayExecuteController {
                 TemplateUtils.requestForJsonArray(MarketInterfacesEnums.STOCK_ZH_A_HIST.getInterfaceUrl(),
                         params);
         // TODO 本地缓存中获取
-        String name = "华昌";
+        StockBaseEntity entity = stockBaseService.queryByCache(code);
+        String name = entity.getName();
         List<StockHisEntity> stockHisEntityList = StockHisEntity.convertArrayToBeanList(monthData,code,name,period);
         System.out.println(stockHisEntityList.size());
         stockHisMapper.insertList(stockHisEntityList);
