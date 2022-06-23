@@ -14,7 +14,8 @@ public class StockBaseServiceImpl extends BaseServiceImpl<StockBaseMapper,StockB
     @Override
     @Cacheable(value = "cache2Hour",key = "#code")
     public StockBaseEntity queryByCache(String code) {
-        log.error("1111");
-        return new StockBaseEntity();
+        StockBaseEntity param = new StockBaseEntity();
+        param.setCode(code);
+        return mapper.selectOne(param);
     }
 }
