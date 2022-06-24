@@ -39,13 +39,13 @@ public class DayExecuteController {
     private StockBaseService stockBaseService;
 
     @GetMapping("/refreshAStock")
-    public void refreshAStock() {
+    public boolean refreshAStock() {
         JSONArray allAStock =
                 TemplateUtils.requestForJsonArray(MarketInterfacesEnums.STOCK_ZH_A_SPOT_EM.getInterfaceUrl(),
                 null);
         List<StockBaseEntity> stockBaseEntityList = StockBaseEntity.convertArrayToBeanList(allAStock);
-        System.out.println(stockBaseEntityList.size());
-        stockBaseMapper.insertList(stockBaseEntityList);
+        stockBaseMapper.batchReplace(stockBaseEntityList);
+        return true;
     }
 
     /**
