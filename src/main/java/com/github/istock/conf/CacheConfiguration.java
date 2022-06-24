@@ -20,11 +20,11 @@ public class CacheConfiguration {
 
         List<CaffeineCache> caffeineCaches = new ArrayList<>();
 
-        caffeineCaches.add(new CaffeineCache("cache2Hour",
+        caffeineCaches.add(new CaffeineCache("cache2Minute",
                 Caffeine.newBuilder()
                         .initialCapacity(50)
                         .maximumSize(30000)//最大存储数量
-                        .expireAfterWrite(2, TimeUnit.HOURS)//过期时间2 小时
+                        .expireAfterWrite(2, TimeUnit.MINUTES)//过期时间2 分钟
                         .build()));
         cacheManager.setCaches(caffeineCaches);
         return cacheManager;

@@ -15,7 +15,7 @@ import java.util.Map;
 public class StockBaseServiceImpl extends BaseServiceImpl<StockBaseMapper,StockBaseEntity> implements StockBaseService {
 
     @Override
-    @Cacheable(value = "cache2Hour",key = "#code")
+    @Cacheable(value = "cache2Minute",key = "#code")
     public StockBaseEntity queryByCache(String code) {
         StockBaseEntity param = new StockBaseEntity();
         param.setCode(code);

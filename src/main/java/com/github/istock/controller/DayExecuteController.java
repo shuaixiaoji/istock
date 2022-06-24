@@ -11,6 +11,7 @@ import com.github.istock.enums.MarketInterfacesEnums;
 import com.github.istock.mapper.StockBaseMapper;
 import com.github.istock.mapper.StockHisMapper;
 import com.github.istock.service.StockBaseService;
+import com.github.istock.utils.ExcelUtils;
 import com.github.istock.utils.TemplateUtils;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,9 +75,9 @@ public class DayExecuteController {
     }
 
 
-    @GetMapping("/check30MonthQuota")
+    @GetMapping("/generate30MonthQuota")
     public String check30MonthQuota(@Param("code") String code) {
-        // 1. 查询
+        // 1. 从数据库获取数据
         StockHisEntity param = new StockHisEntity();
         param.setCode(code);
         List<StockHisEntity> originDate = stockHisMapper.select(param);
@@ -105,20 +106,40 @@ public class DayExecuteController {
         return JSON.toJSONString(monthlyAnalysisEntities);
     }
 
+    @GetMapping("/exportMonthQuota")
+    public void checkMonthQuota() {
+        List<StockBaseEntity> stockBaseEntityList = stockBaseService.selectListAll();
+        List<String> codeList = stockBaseEntityList.stream().map(StockBaseEntity::getCode).collect(Collectors.toList());
+        Map<String,StockBaseEntity> map = stockBaseEntityList.stream().collect(Collectors.toMap(StockBaseEntity::getCode,a->a));
+        List<MonthlyAnalysisEntity> excelList = new ArrayList<>();
+        int count = 0;
+        for (String code : codeList) {
+            System.out.println(count);
+            MonthlyAnalysisEntity entity = checkMonthQuota(code,map);
+            if (entity != null) {
+                excelList.add(entity);
+            }
+            count++;
+        }
+        ExcelUtils.simpleWrite("D://Monthly.xlsx",excelList,MonthlyAnalysisEntity.class);
+    }
+
     @GetMapping("/checkMonthQuota")
-    public boolean checkMonthQuota(@Param("code") String code) {
-        // 1. 查询
+    public MonthlyAnalysisEntity checkMonthQuota(@Param("code") String code, Map<String, StockBaseEntity> map) {
+        // 1. 实时查询
         Date now = new Date();
         Map<String,String> params = new HashMap<>();
         params.put("symbol",code);
         params.put("period","monthly");
-        params.put("start_date",DateUtil.format(DateUtil.offsetMonth(now,-99),"yyyyMMdd"));
+        params.put("start_date",DateUtil.format(DateUtil.offsetMonth(now,-40),"yyyyMMdd"));
         params.put("end_date", DateUtil.format(now,"yyyyMMdd"));
         params.put("adjust","qfq");
         JSONArray monthData =
                 TemplateUtils.requestForJsonArray(MarketInterfacesEnums.STOCK_ZH_A_HIST.getInterfaceUrl(),
                         params);
-        StockBaseEntity entity = stockBaseService.queryByCache(code);
+
+        // 需要刷新基础信息表
+        StockBaseEntity entity = map.get(code);
         // 查询最新价格
         BigDecimal recentPrice = entity.getRecentPrice();
         String name = entity.getName();
@@ -145,13 +166,26 @@ public class DayExecuteController {
 //        }
 //        return JSON.toJSONString(monthlyAnalysisEntities);
 
-        // 3. 判断
+        // 3. 判断是否满足 10月上穿30月，股价回到30月以下
         int count  = sortDate.size();
+        // 不足30月不处理
+        if (count < 30) {
+            return null;
+        }
         BigDecimal month10Avg = sortDate.subList(count-10,count).stream().map(StockHisEntity::getClosePrice).reduce(BigDecimal.ZERO,BigDecimal::add).divide(new BigDecimal(10),3,BigDecimal.ROUND_HALF_UP);
         BigDecimal month30Avg = sortDate.subList(count-30,count).stream().map(StockHisEntity::getClosePrice).reduce(BigDecimal.ZERO,BigDecimal::add).divide(new BigDecimal(30),3,BigDecimal.ROUND_HALF_UP);
-        if(month10Avg.compareTo(month30Avg)> 0 && recentPrice.compareTo(month30Avg) <0) {
-            return true;
+        if (month10Avg.compareTo(month30Avg) > 0 && recentPrice.compareTo(month30Avg) < 0) {
+            MonthlyAnalysisEntity monthlyAnalysisEntity = new MonthlyAnalysisEntity();
+            monthlyAnalysisEntity.setCode(code);
+            monthlyAnalysisEntity.setName(name);
+            monthlyAnalysisEntity.setStaticDate(DateUtil.format(now, "yyyyMMdd"));
+            monthlyAnalysisEntity.setMonth30Avg(month30Avg);
+            monthlyAnalysisEntity.setMonth10Avg(month10Avg);
+            monthlyAnalysisEntity.setRecentPrice(recentPrice);
+            monthlyAnalysisEntity.setGapRate(month30Avg.subtract(recentPrice).divide(month30Avg, 3,
+                    BigDecimal.ROUND_HALF_UP));
+            return monthlyAnalysisEntity;
         }
-        return false;
+        return null;
     }
 }
