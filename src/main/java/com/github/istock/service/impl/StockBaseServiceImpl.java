@@ -1,12 +1,18 @@
 package com.github.istock.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.github.istock.entity.StockBaseEntity;
+import com.github.istock.enums.MarketInterfacesEnums;
 import com.github.istock.mapper.StockBaseMapper;
 import com.github.istock.service.StockBaseService;
+import com.github.istock.utils.TemplateUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +31,31 @@ public class StockBaseServiceImpl extends BaseServiceImpl<StockBaseMapper,StockB
     @Override
     public void batchReplace(List<StockBaseEntity> entities) {
         mapper.batchReplace(entities);
+    }
+
+    @Override
+    @Cacheable(value = "cache2Minute")
+    public List<StockBaseEntity> queryAllStock() {
+        JSONArray allAStock =
+                TemplateUtils.requestForJsonArray(MarketInterfacesEnums.STOCK_ZH_A_SPOT_EM.getInterfaceUrl(),
+                        null);
+        List<StockBaseEntity> stockBaseEntityList = StockBaseEntity.convertArrayToBeanList(allAStock);
+        return stockBaseEntityList;
+    }
+
+    @Override
+    public BigDecimal queryTotalStock(String code) {
+        Map<String,String> params = new HashMap<>();
+        params.put("symbol",code);
+        JSONArray baseInfoArray =
+                TemplateUtils.requestForJsonArray(MarketInterfacesEnums.STOCK_INDIVIDUAL_INFO_EM.getInterfaceUrl(),
+                        params);
+        for (Object info : baseInfoArray) {
+            if (JSON.parseObject(JSON.toJSONString(info)).getString("item").equals("总股本")) {
+                return JSON.parseObject(JSON.toJSONString(info)).getBigDecimal("value");
+            }
+        }
+        return BigDecimal.ZERO;
     }
 
     /**

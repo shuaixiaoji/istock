@@ -20,7 +20,7 @@ import java.util.Map;
  * @date 2022/6/13 14:43
  */
 public class TemplateUtils {
-    private static final String URL_HEAD = "http://157.0.19.2:10120/api/public/";
+    private static final String URL_HEAD = "http://1.117.95.184:8088/api/public/";
 
     /**
      * 获取请求模板

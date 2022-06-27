@@ -9,5 +9,6 @@ import java.math.BigDecimal;
  */
 public class Constant {
     public static final BigDecimal TEN_THOUSAND = new BigDecimal(10000);
+    public static final BigDecimal HUNDRED = new BigDecimal(100);
     public static final BigDecimal ZERO = BigDecimal.ZERO;
 }

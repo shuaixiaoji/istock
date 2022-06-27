@@ -38,6 +38,12 @@ public class MonthlyAnalysisEntity {
     @ExcelProperty("30月均线价格")
     private BigDecimal month30Avg;
 
-    @ExcelProperty("与30日价格差距百分比")
+    @ExcelProperty("现价与30日价百分差")
     private BigDecimal gapRate;
+
+    @ExcelProperty("流通市值(单位：亿)")
+    private BigDecimal circulateStock;
+
+    @ExcelProperty("总股本(单位：亿)")
+    private BigDecimal totalStock;
 }
