@@ -53,7 +53,7 @@ public class AnalystRankEntity {
      * @param obj obj
      * @return obj
      */
-    private static AnalystRankEntity convertJsonToBean(Object obj) {
+    public static AnalystRankEntity convertJsonToBean(Object obj) {
         JSONObject object = JSONObject.parseObject(JSON.toJSONString(obj));
         AnalystRankEntity resp = new AnalystRankEntity();
         resp.setCompany(object.getString("分析师单位"));

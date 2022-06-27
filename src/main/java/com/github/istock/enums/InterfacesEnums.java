@@ -1,5 +1,7 @@
 package com.github.istock.enums;
 
+import com.github.istock.entity.AnalysisHoldRankEntity;
+import com.github.istock.entity.AnalystDetailEntity;
 import com.github.istock.entity.AnalystRankEntity;
 import com.github.istock.entity.InnerTradeEntity;
 import lombok.AllArgsConstructor;
@@ -26,6 +28,8 @@ public enum InterfacesEnums {
     STOCK_ZH_A_STOP_EM("退市查询","stock_zh_a_stop_em", String.class),
     STOCK_INNER_TRADE_XQ("内部交易", "stock_inner_trade_xq", InnerTradeEntity.class),
     STOCK_ANALYST_RANK_EM("分析师指数", "stock_analyst_rank_em", AnalystRankEntity.class),
+    STOCK_ANALYST_DETAIL_EM("分析师详情", "stock_analyst_detail_em", AnalystDetailEntity.class),
+    STOCK_ANALYST_HOLD_RANK("分析师持有股排序", "stock_analyst_hold_rank", AnalysisHoldRankEntity.class),
     
     ;
     private String desc;

@@ -34,25 +34,27 @@ public class ExportUtil {
         Map<String, List<Object>> dataMap = new HashMap<>(10);
         dataMap.put(code, data);
 
-        Consumer<ExcelWriter> writerConsumer = excelWriter -> writeData(dataMap, excelWriter);
+        Consumer<ExcelWriter> writerConsumer = excelWriter -> writeData(dataMap, excelWriter, true);
         
-        String fileName = DateUtils.format(new Date(), DateUtils.DATE_FORMAT_14) + ".xlsx";
-        export("/Users/mac-huanglc/stock/" + fileName, writerConsumer);
-        log.info("exportData end. name = {}", fileName);
+        export(writerConsumer);
     }    
     
     public static void exportData(Map<String, List<Object>> dataMap) {
         if (MapUtils.isEmpty(dataMap)) {
             return;
         }
-        Consumer<ExcelWriter> writerConsumer = excelWriter -> writeData(dataMap, excelWriter);
+        Consumer<ExcelWriter> writerConsumer = excelWriter -> writeData(dataMap, excelWriter, false);
         
-        String fileName = DateUtils.format(new Date(), DateUtils.DATE_FORMAT_14) + ".xlsx";
-        export("/Users/mac-huanglc/stock/" + fileName, writerConsumer);
-        log.info("exportDataMap end. name = {}", fileName);
+        export(writerConsumer);
     }
 
-    private static void writeData(Map<String, List<Object>> dataMap, ExcelWriter excelWriter) {
+    private static void export(Consumer<ExcelWriter> writerConsumer) {
+        String fileName = DateUtils.format(new Date(), DateUtils.DATE_FORMAT_14) + ".xlsx";
+        export("/Users/mac-huanglc/stock/" + fileName, writerConsumer);
+        log.info("exportData end. name = {}", fileName);
+    }
+
+    private static void writeData(Map<String, List<Object>> dataMap, ExcelWriter excelWriter, boolean needConvert) {
         if (MapUtils.isEmpty(dataMap)) {
             return;
         }
@@ -65,7 +67,7 @@ public class ExportUtil {
                 continue;
             }
             Class<?> clas = interfaceEnum.getClas();
-            List<Object> objects = dataConvert(data, clas);
+            List<Object> objects = needConvert ? dataConvert(data, clas) : data;
             // 支持多个sheet写入
             excelWriter.write(objects, EasyExcel.writerSheet(interfaceEnum.getDesc()).head(clas).build());
         }
