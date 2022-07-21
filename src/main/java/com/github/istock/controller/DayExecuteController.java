@@ -5,6 +5,7 @@ import cn.hutool.core.date.DateUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.github.istock.constants.Constant;
+import com.github.istock.entity.LowerShadowEntity;
 import com.github.istock.entity.MonthlyAnalysisEntity;
 import com.github.istock.entity.StockBaseEntity;
 import com.github.istock.entity.StockHisEntity;
@@ -19,6 +20,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
@@ -112,6 +114,48 @@ public class DayExecuteController {
             monthlyAnalysisEntities.add(monthlyAnalysisEntity);
         }
         return JSON.toJSONString(monthlyAnalysisEntities);
+    }
+
+
+    @GetMapping("/lowerShadowCheck")
+    public void lowerShadowCheck(@RequestParam Integer countDay,@RequestParam BigDecimal rate) throws ExecutionException, InterruptedException{
+        List<StockBaseEntity> stockBaseEntityList = stockBaseService.queryAllStock();
+        List<String> codeList = stockBaseEntityList.stream().map(StockBaseEntity::getCode).collect(Collectors.toList());
+        // 一个线程处理250条数据
+        List<List<String>> partitionList = ListUtil.partition(codeList, 250);
+        List<LowerShadowEntity> excelList = new ArrayList<>();
+        Map<String, StockBaseEntity> map =
+                stockBaseEntityList.stream().collect(Collectors.toMap(StockBaseEntity::getCode, a -> a));
+        ExecutorService executor = Executors.newFixedThreadPool(partitionList.size());
+        // 多线程处理，并全部处理完导出
+        List<Future> futureList = new ArrayList<>();
+        for (int i = 0; i < partitionList.size(); i++) {
+            List<String> threadList = partitionList.get(i);
+            int finalI = i;
+            Future future = executor.submit(new Callable<Object>() {
+                @Override
+                public Object call() throws Exception {
+                    int count = 0;
+                    for (String code : threadList) {
+                        System.out.println(finalI + "-" + count);
+                        LowerShadowEntity entity = stockBaseService.checkLowerShadow(code, map, countDay,rate);
+                        if (entity != null) {
+                            excelList.add(entity);
+                        }
+                        count++;
+                    }
+                    return true;
+                }
+            });
+            futureList.add(future);
+        }
+        // 阻塞至数据所有线程处理完成
+        for (Future future : futureList) {
+            future.get();
+        }
+        executor.shutdown();
+        // 导出excel
+        ExcelUtils.simpleWrite("D://Monthly.xlsx", excelList, LowerShadowEntity.class);
     }
 
     /**
