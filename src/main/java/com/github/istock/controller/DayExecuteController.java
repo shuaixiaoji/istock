@@ -113,7 +113,14 @@ public class DayExecuteController {
         return JSON.toJSONString(monthlyAnalysisEntities);
     }
 
-
+    /**
+     * 下影线筛选
+     *
+     * @param countDay 连续天数
+     * @param rate 比例差
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     @GetMapping("/lowerShadowCheck")
     public void lowerShadowCheck(@RequestParam Integer countDay,@RequestParam BigDecimal rate) throws ExecutionException, InterruptedException{
         List<StockBaseEntity> stockBaseEntityList = stockBaseService.queryAllStock();
