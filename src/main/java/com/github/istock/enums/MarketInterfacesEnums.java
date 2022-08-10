@@ -47,8 +47,12 @@ public enum MarketInterfacesEnums {
 
     /************   沪深京A股信息 start ******************/
     STOCK_ZH_A_HIST("个股历史数据","stock_zh_a_hist"),
-    STOCK_INDIVIDUAL_INFO_EM("新浪个股信息","stock_individual_info_em");
+    STOCK_INDIVIDUAL_INFO_EM("新浪个股信息","stock_individual_info_em"),
     /************   沪深京A股信息 end ******************/
+
+    /************   个股处理 start ******************/
+    STOCK_NEWS("当日最近 20 条新闻资讯数据","stock_news_em");
+    /************   个股处理 end ******************/
 
     private String desc;
     private String interfaceUrl;

@@ -88,9 +88,14 @@ public class StockBaseServiceImpl extends BaseServiceImpl<StockBaseMapper,StockB
             String name = entity.getName();
             List<StockHisEntity> hisDate = StockHisEntity.convertArrayToBeanList(queryResult, code, name, "daily");
 
+
             List<StockHisEntity> filterList =
-                    hisDate.stream().filter(stockHisEntity -> stockHisEntity.getClosePrice().compareTo(stockHisEntity.getMinPrice()) > 0 &&
-                            stockHisEntity.getClosePrice().subtract(stockHisEntity.getMinPrice()).divide(stockHisEntity.getMinPrice(), 2, BigDecimal.ROUND_HALF_UP).compareTo(rate) > 0).collect(Collectors.toList());
+                    hisDate.stream().filter(stockHisEntity -> {
+                       // 在阳线中，它是当日开盘价与最低价之差；在阴线中，它是当日收盘价与最低价之差。
+                       BigDecimal basePrice = stockHisEntity.getOpenPrice().compareTo(stockHisEntity.getClosePrice()) > 0 ? stockHisEntity.getClosePrice() : stockHisEntity.getOpenPrice();
+                       return basePrice.compareTo(stockHisEntity.getMinPrice()) > 0 &&
+                                basePrice.subtract(stockHisEntity.getMinPrice()).divide(stockHisEntity.getMinPrice(), 2, BigDecimal.ROUND_HALF_UP).compareTo(rate) > 0;
+                    }).collect(Collectors.toList());
             if (filterList.size() == hisDate.size()) {
                 LowerShadowEntity lowerShadowEntity = new LowerShadowEntity();
                 lowerShadowEntity.setCode(code);
