@@ -122,7 +122,7 @@ public class DayExecuteController {
      * @throws InterruptedException
      */
     @GetMapping("/lowerShadowCheck")
-    public void lowerShadowCheck(@RequestParam Integer countDay,@RequestParam BigDecimal rate) throws ExecutionException, InterruptedException{
+    public void lowerShadowCheck(@RequestParam Integer countDay,@RequestParam BigDecimal rate) throws ExecutionException, InterruptedException {
         List<StockBaseEntity> stockBaseEntityList = stockBaseService.queryAllStock();
         List<String> codeList = stockBaseEntityList.stream().map(StockBaseEntity::getCode).collect(Collectors.toList());
         // 一个线程处理250条数据
@@ -142,7 +142,9 @@ public class DayExecuteController {
                     int count = 0;
                     for (String code : threadList) {
                         System.out.println(finalI + "-" + count);
+                        long startTime = System.currentTimeMillis();
                         LowerShadowEntity entity = stockBaseService.checkLowerShadow(code, map, countDay,rate);
+                        System.out.println("check call time : " + (System.currentTimeMillis() - startTime));
                         if (entity != null) {
                             excelList.add(entity);
                         }

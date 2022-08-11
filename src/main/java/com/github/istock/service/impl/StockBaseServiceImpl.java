@@ -64,22 +64,25 @@ public class StockBaseServiceImpl extends BaseServiceImpl<StockBaseMapper,StockB
     public LowerShadowEntity checkLowerShadow(String code, Map<String, StockBaseEntity> map, Integer countDay,
                                               BigDecimal rate) {
         try {
-            // 1. 实时查询60个月历史数据
+            // 1. 实时查询历史数据
             Date now = new Date();
             Map<String, String> params = new HashMap<>();
             params.put("symbol", code);
             params.put("period", "daily");
             if (DateUtil.hour(now, true) > 15) {
-                params.put("start_date", DateUtil.format(DateUtil.offsetMonth(now, -countDay), "yyyyMMdd"));
+                params.put("start_date", DateUtil.format(DateUtil.offsetDay(now, -countDay), "yyyyMMdd"));
                 params.put("end_date", DateUtil.format(now, "yyyyMMdd"));
             } else {
-                params.put("start_date", DateUtil.format(DateUtil.offsetMonth(now, -(countDay + 1)), "yyyyMMdd"));
-                params.put("end_date", DateUtil.format(DateUtil.offsetMonth(now, -1), "yyyyMMdd"));
+                params.put("start_date", DateUtil.format(DateUtil.offsetDay(now, -(countDay + 1)), "yyyyMMdd"));
+                params.put("end_date", DateUtil.format(DateUtil.offsetDay(now, -1), "yyyyMMdd"));
             }
             params.put("adjust", "qfq");
             JSONArray queryResult =
                     TemplateUtils.requestForJsonArray(MarketInterfacesEnums.STOCK_ZH_A_HIST.getInterfaceUrl(),
                             params);
+            if(queryResult.size() == 0){
+                return null;
+            }
 
             // 需要刷新基础信息表
             StockBaseEntity entity = map.get(code);
@@ -94,7 +97,7 @@ public class StockBaseServiceImpl extends BaseServiceImpl<StockBaseMapper,StockB
                        // 在阳线中，它是当日开盘价与最低价之差；在阴线中，它是当日收盘价与最低价之差。
                        BigDecimal basePrice = stockHisEntity.getOpenPrice().compareTo(stockHisEntity.getClosePrice()) > 0 ? stockHisEntity.getClosePrice() : stockHisEntity.getOpenPrice();
                        return basePrice.compareTo(stockHisEntity.getMinPrice()) > 0 &&
-                                basePrice.subtract(stockHisEntity.getMinPrice()).divide(stockHisEntity.getMinPrice(), 2, BigDecimal.ROUND_HALF_UP).compareTo(rate) > 0;
+                                basePrice.subtract(stockHisEntity.getMinPrice()).divide(stockHisEntity.getMinPrice(), 3, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100)).compareTo(rate) > 0;
                     }).collect(Collectors.toList());
             if (filterList.size() == hisDate.size()) {
                 LowerShadowEntity lowerShadowEntity = new LowerShadowEntity();
